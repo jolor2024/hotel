@@ -2,3 +2,4 @@ vendor
 .env
 todo.txt
 fiveserver.config.js
+app/hotel.code-workspace
