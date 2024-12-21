@@ -7,3 +7,14 @@ body {
     padding: 0;
 }
 
+
+.booked-dates {
+    list-style-type: none;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.booked-dates li {
+    background-color: rgb(244, 142, 142);
+}

@@ -1,6 +1,8 @@
 <?php
-$test =  "Test"; //Require istället tydligare.
-echo $test;
+
+require __DIR__ . "/app/available.php";
+
+$dates = datesToArray(getBookedDates());
 ?>
 <html lang="en">
 
@@ -49,6 +51,12 @@ echo $test;
 
                 <input type="submit" value="Boka" />
             </form>
+            <p style="text-align: center;">Bokade tider</p>
+            <ul class="booked-dates">
+                <?php for ($i = 0; $i < count($dates); $i++) : ?>
+                    <li><?= $dates[$i] ?> Jan</li>
+                <?php endfor; ?>
+            </ul>
         </div>
 
     </main>
