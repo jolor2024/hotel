@@ -24,6 +24,7 @@ if (isset(
     $room = $_POST["room"];
     $transferCode = $_POST["transferCode"];
 
+    //Kolla om giltiga namn features?
     $features = [];
     if (isset($_POST["feature1"])) {
         $features[] = [
@@ -45,8 +46,38 @@ if (isset(
     }
 
     //error_log(implode(array_values($features)[0]), 4);
-    $totalCost = 10;
+
     $stars = 5;
+
+
+    //Calculating cost function?
+    $totalCost = 0;
+
+    if ($room == "Budget") {
+        $totalCost += 100;
+    } else if ($room == "Standard") {
+        $totalCost += 200;
+    } else if ($room == "Luxury") {
+        $totalCost += 1000;
+    }
+
+
+    foreach ($features as $feature) {
+        $totalCost += $feature["price"];
+    }
+
+    error_log("Total Cost: " . $totalCost, 4);
+
+
+    ////The hotel can give discounts, for example, how about 30% off for a visit longer than three days?
+    if ((new DateTime($startDate))->diff(new DateTime($endDate))->days > 3) {
+        $totalCost = 0.7 * $totalCost;
+        error_log("More than 3 days, give discount", 4);
+    }
+
+    $totalCost = 2; //Temporary for testing
+    $totalCost = (string) $totalCost;
+
 
 
 
@@ -66,11 +97,14 @@ if (isset(
                     "imageUrl" => "https://upload.wikimedia.org/wikipedia/commons/e/e2/Hotel_Boscolo_Exedra_Nice.jpg"
                 ]
             ];
-            echo json_encode($response);
+            if (addBooking($startDate, $endDate)) {
+                echo json_encode($response); //
+            }
         } else {
             error_log("Selected dates not available", 4);
         }
     } else {
+        echo json_encode("Not valid transfer code");
         error_log("Not valid transfer code", 4);
     }
 }
@@ -79,8 +113,8 @@ if (isset(
 /* Checks if transfer code is valid */
 function checkTransfer($transferCode, $totalCost)
 {
+    error_log("Code: " . $transferCode, 4);
     $client = new Client(["base_uri" => "https://www.yrgopelago.se/centralbank/"]);
-
     try {
         $response = $client->request("POST", "transferCode", [
             'headers' => [
@@ -100,4 +134,14 @@ function checkTransfer($transferCode, $totalCost)
         error_log((string) $response->getStatusCode(), 4);
         return false;
     }
+}
+
+
+function addBooking($startDate, $endDate)
+{
+    //Add to database
+
+    //Deposit money.
+    error_log("Creating booking order..", 4);
+    return true;
 }
