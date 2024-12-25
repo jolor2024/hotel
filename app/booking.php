@@ -9,6 +9,14 @@ require_once __DIR__ . "/dbfunctions.php";
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
+error_log($_ENV['API_KEY'], 4);
+
+
 /* Your hotel MUST give a response to every succesful booking. The response should be in json and MUST have the following properties*/
 /*Your hotel MUST check if a transferCode submitted by a tourist is valid (otherwise you won't get any money)*/
 //Your hotel MUST check availibilty of the requested room and dates before making the booking and sending the response package as json.
@@ -85,7 +93,7 @@ if (isset(
         if (checkAvailable($startDate, $endDate, $room)) { //Check available dates.
             $response = [
                 "island" => "Insula Bolmia",
-                "hotel" => "Co-Spa Hotel",
+                "hotel" => "Code Spa Hotel",
                 "arrival_date" => $startDate,
                 "departure_date" => $endDate,
                 "total_cost" => $totalCost,
@@ -99,6 +107,12 @@ if (isset(
             //Fixa här features.
             if (insertBooking($room, $roomCost, $startDate, $endDate, $transferCode, true, false, false, $totalCost)) {
                 error_log("Success Booking order created...", 4);
+                //Bokning ok! Deposit pengarna
+                if (deposit($transferCode)) {
+                    error_log("Success deposit.", 4);
+                } else {
+                    error_log("Error deposit", 4);
+                }
             } else {
                 error_log("Error booking order...", 4);
             }
@@ -137,4 +151,36 @@ function checkTransfer($transferCode, $totalCost)
         error_log((string) $response->getStatusCode(), 4);
         return false;
     }
+}
+
+
+//Deposit transfercode $$$
+function deposit($transferCode)
+{
+    $username = "Jonatan";
+
+    $client = new Client(["base_uri" => "https://www.yrgopelago.se/centralbank/"]);
+    try {
+        $response = $client->request("POST", "deposit", [
+            'headers' => [
+                'Content-Type' => 'application/x-www-form-urlencoded'
+            ],
+            "form_params" => [
+                "user" => $username,
+                "transferCode" => $transferCode,
+                "numberOfDays" => 3 //Fixa detta?
+            ]
+        ]);
+        error_log("Status code" . (string) $response->getStatusCode(), 4);
+        error_log("Response body" . (string) $response->getBody(), 4);
+        return true;
+    } catch (ClientException $e) {
+        $response = $e->getResponse();
+        error_log("Body: " . (string) $response->getBody(), 4);
+        error_log((string) $response->getStatusCode(), 4);
+        error_log("Error deposit...", 4);
+        return false;
+    }
+
+    return true;
 }

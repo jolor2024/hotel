@@ -3,6 +3,7 @@
 declare(strict_types=1);
 require_once __DIR__ . "/dbfunctions.php";
 
+//För test
 function getBookedDates()
 {
     //For testing dates.

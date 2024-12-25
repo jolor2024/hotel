@@ -1,13 +1,11 @@
 <?php
-
 require_once __DIR__ . "/app/available.php";
 require_once __DIR__ . "/app/dbfunctions.php";
+require(__DIR__ . '/vendor/autoload.php');
+
 
 
 $all_bookings = getBookings(__DIR__ . "/db/booking.db");
-
-
-
 $budget_bookings = [];
 $standard_bookings = [];
 $luxury_bookings = [];
@@ -43,7 +41,7 @@ $dates_luxury = datesToArray($luxury_bookings);
 <body>
     <header id="topHeader">
         <nav>
-            <h1>Code Spa Hotel</h1>
+            <h1>Code SPA Hotel</h1>
         </nav>
         <div class="hero">
             <div class="inner-text">
