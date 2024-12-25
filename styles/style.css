@@ -82,32 +82,45 @@ nav {
 
 
 .booked-dates {
-    list-style-type: none; 
-    display: flex;
-    flex-wrap: wrap; 
-    justify-content: start; 
-    gap: 10px; 
-    padding: 0; 
-    margin-top: 10px; 
+    list-style-type: none;
+    display: grid; 
+    grid-template-columns: repeat(7, 1fr); 
+    padding: 0;
 }
 
 .booked-dates li {
-    background-color: #F48C8C;
-    color: white; 
-    padding: 5px 15px; 
-    border-radius: 25px; 
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
-    font-size: 14px; 
+    background-color: #f1f1f1;
+    color: rgb(62, 62, 62);
+    padding: 0; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
     font-weight: bold;
     text-align: center;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    height: 50px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.booked-dates .day-header {
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    height: 50px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #969683;
+}
+
+.booked-dates .booked {
+    background-color: #f95f5f;
 }
 
 
-.booked-dates li:hover {
-    background-color: #F4B6B6; 
-    transform: translateY(-5px); 
-}
+
 main {
     position: relative;
 }
