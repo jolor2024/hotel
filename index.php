@@ -1,14 +1,41 @@
 <?php
 
-require __DIR__ . "/app/available.php";
+require_once __DIR__ . "/app/available.php";
+require_once __DIR__ . "/app/dbfunctions.php";
 
-$dates = datesToArray(getBookedDates());
+
+$all_bookings = getBookings(__DIR__ . "/db/booking.db");
+
+
+
+$budget_bookings = [];
+$standard_bookings = [];
+$luxury_bookings = [];
+
+foreach ($all_bookings as $booking) {
+    if ($booking["room_type"] == "Budget") {
+        $budget_bookings[] = $booking;
+    } else if ($booking["room_type"] == "Standard") {
+        $standard_bookings[] = $booking;
+    } else if ($booking["room_type"] == "Luxury") {
+        $luxury_bookings[] = $booking;
+    }
+}
+
+
+$dates_budget = datesToArray($budget_bookings);
+$dates_standard = datesToArray($standard_bookings);
+$dates_luxury = datesToArray($luxury_bookings);
+
+//die(var_dump($all_bookings));
 ?>
+
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="widths=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/style.css">
     <title>Code Spa Hotel</title>
 </head>
@@ -92,8 +119,8 @@ $dates = datesToArray(getBookedDates());
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
                     <p style="text-align: center;">Bokade tider</p>
                     <ul class="booked-dates">
-                        <?php for ($i = 0; $i < count($dates); $i++) : ?>
-                            <li><?= $dates[$i] ?> Jan</li>
+                        <?php for ($i = 0; $i < count($dates_budget); $i++) : ?>
+                            <li><?= $dates_budget[$i] ?> Jan</li>
                         <?php endfor; ?>
                     </ul>
                 </div>
@@ -104,8 +131,8 @@ $dates = datesToArray(getBookedDates());
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
                     <p style="text-align: center;">Bokade tider</p>
                     <ul class="booked-dates">
-                        <?php for ($i = 0; $i < count($dates); $i++) : ?>
-                            <li><?= $dates[$i] ?> Jan</li>
+                        <?php for ($i = 0; $i < count($dates_standard); $i++) : ?>
+                            <li><?= $dates_standard[$i] ?> Jan</li>
                         <?php endfor; ?>
                     </ul>
                 </div>
@@ -118,8 +145,8 @@ $dates = datesToArray(getBookedDates());
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
                     <p style="text-align: center;">Bokade tider</p>
                     <ul class="booked-dates">
-                        <?php for ($i = 0; $i < count($dates); $i++) : ?>
-                            <li><?= $dates[$i] ?> Jan</li>
+                        <?php for ($i = 0; $i < count($dates_luxury); $i++) : ?>
+                            <li><?= $dates_luxury[$i] ?> Jan</li>
                         <?php endfor; ?>
                     </ul>
                 </div>

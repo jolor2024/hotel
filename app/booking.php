@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require '../vendor/autoload.php';
 require __DIR__ . "/available.php";
+require_once __DIR__ . "/dbfunctions.php";
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -21,7 +22,7 @@ if (isset(
 )) {
     $startDate = $_POST["start-date"];
     $endDate = $_POST["end-date"];
-    $room = $_POST["room"];
+    $room = $_POST["room"]; //Kolla om giltiga room namn?
     $transferCode = $_POST["transferCode"];
 
     //Kolla om giltiga namn features?
@@ -47,18 +48,20 @@ if (isset(
 
     //error_log(implode(array_values($features)[0]), 4);
 
-    $stars = 5;
+    $stars = 4;
 
-
-    //Calculating cost function?
+    $roomCost = 0; //Calculating cost function? ist
     $totalCost = 0;
 
     if ($room == "Budget") {
-        $totalCost += 100;
+        $roomCost += 2;
+        $totalCost += $roomCost;
     } else if ($room == "Standard") {
-        $totalCost += 200;
+        $roomCost += 5;
+        $totalCost += $roomCost;
     } else if ($room == "Luxury") {
-        $totalCost += 1000;
+        $roomCost += 10;
+        $totalCost += $roomCost;
     }
 
 
@@ -75,15 +78,11 @@ if (isset(
         error_log("More than 3 days, give discount", 4);
     }
 
-    $totalCost = 2; //Temporary for testing
-    $totalCost = (string) $totalCost;
-
-
 
 
     if (checkTransfer($transferCode, $totalCost)) { //Valid transfer code
         header('Content-Type: application/json');
-        if (checkAvailable($startDate, $endDate)) { //Check available dates.
+        if (checkAvailable($startDate, $endDate, $room)) { //Check available dates.
             $response = [
                 "island" => "Insula Bolmia",
                 "hotel" => "Co-Spa Hotel",
@@ -97,8 +96,11 @@ if (isset(
                     "imageUrl" => "https://upload.wikimedia.org/wikipedia/commons/e/e2/Hotel_Boscolo_Exedra_Nice.jpg"
                 ]
             ];
-            if (addBooking($startDate, $endDate)) {
-                echo json_encode($response); //
+            //Fixa här features.
+            if (insertBooking($room, $roomCost, $startDate, $endDate, $transferCode, true, false, false, $totalCost)) {
+                error_log("Success Booking order created...", 4);
+            } else {
+                error_log("Error booking order...", 4);
             }
         } else {
             error_log("Selected dates not available", 4);
@@ -130,18 +132,9 @@ function checkTransfer($transferCode, $totalCost)
         return true;
     } catch (ClientException $e) {
         $response = $e->getResponse();
-        error_log("Error,  not valid transferCode", 4);
+        error_log("Body: " . (string) $response->getBody(), 4);
+        error_log("Error, not valid transferCode or totalcost exceeds that of the transfercode", 4);
         error_log((string) $response->getStatusCode(), 4);
         return false;
     }
-}
-
-
-function addBooking($startDate, $endDate)
-{
-    //Add to database
-
-    //Deposit money.
-    error_log("Creating booking order..", 4);
-    return true;
 }
