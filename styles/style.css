@@ -5,19 +5,27 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 #topHeader {
-    background-image: url("/images/hero2.jpg");
+    background-image: url("/images/hero5.jpg");
     background-size: cover ;
     background-repeat: no-repeat;
     background-position: center;
     text-align: center;
     color: #fff;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 nav {
-    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav h1 {
+    font-weight: 300;
 }
 
 .hero {
@@ -86,17 +94,17 @@ nav {
     display: grid; 
     grid-template-columns: repeat(7, 1fr); 
     padding: 0;
+    width: 450px;
 }
 
 .booked-dates li {
     background-color: #f1f1f1;
     color: rgb(62, 62, 62);
     padding: 0; 
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     font-size: 14px;
     font-weight: bold;
     text-align: center;
-    height: 50px; 
+    height: 40px; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -147,11 +155,34 @@ main {
     align-items: center;
 }
 .roomImg {
-    background-image: url("/images/coworking.jpg");
+    flex-basis: calc(40% - 50px);
+    height: 300px;
+}
+
+.roomInfo {
+    flex-basis: calc(60% - 50px);
+}
+
+.roomInfo h2 {
+    font-weight: 400;
+}
+
+.budgetImg {
+    background-image: url("/images/budgetroom.jpg");
     background-size: cover;
     background-position: right;
-    width: 400px;
-    height: 200px;
+}
+
+.standardImg {
+    background-image: url("/images/standardroom.jpg");
+    background-size: cover;
+    background-position: right;
+}
+
+.luxuryImg {
+    background-image: url("/images/luxury.jpg");
+    background-size: cover;
+    background-position: center;
 }
 
 
@@ -218,6 +249,9 @@ legend {
     flex-basis: 100%;
 }
 
+label, legend {
+    font-weight: 300;
+}
 
 
 

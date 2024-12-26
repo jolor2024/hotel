@@ -36,6 +36,9 @@ $dates_luxury = datesToArray($luxury_bookings);
     <meta charset="UTF-8">
     <meta name="viewport" content="widths=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <title>Code Spa Hotel</title>
 </head>
 
@@ -111,12 +114,12 @@ $dates_luxury = datesToArray($luxury_bookings);
         <section class="infoContent">
             <h1>Våra rum</h1>
             <section class="room" id="budget">
-                <div class="roomImg">
+                <div class="roomImg budgetImg">
                 </div>
                 <div class="roomInfo">
-                    <h2>Code & Chill (Budget)</h2>
+                    <h2>Debug & Reboot (Budget)</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                    <p style="text-align: center;">Bokade tider Januari</p>
+                    <p>Bokade tider</p>
                     <ul class="booked-dates">
                         <li class="day-header">M</li>
                         <li class="day-header">T</li>
@@ -133,10 +136,10 @@ $dates_luxury = datesToArray($luxury_bookings);
             </section>
             <section class="room" id="standard">
                 <div class="roomInfo">
-                    <h2>Debug & Reboot (Standard)</h2>
+                    <h2>Dev & Detox (Standard)</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                    <p style="text-align: center;">Bokade tider</p>
-                    <ul class="booked-dates">
+                    <p>Bokade tider</p>
+                    <ul class=" booked-dates">
                         <li class="day-header">M</li>
                         <li class="day-header">T</li>
                         <li class="day-header">O</li>
@@ -149,14 +152,14 @@ $dates_luxury = datesToArray($luxury_bookings);
                         <?php endfor; ?>
                     </ul>
                 </div>
-                <div class="roomImg"></div>
+                <div class="roomImg standardImg"></div>
             </section>
             <section class="room" id="luxury">
-                <div class="roomImg"></div>
+                <div class="roomImg luxuryImg"></div>
                 <div class="roomInfo">
-                    <h2>Dev & Detox (Luxury)</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                    <p style="text-align: center;">Bokade tider</p>
+                    <h2>SPA & SPA (Luxury)</h2>
+                    <p>Få tillgång till Spa medan du kodar ditt SPA.</p>
+                    <p>Bokade tider</p>
                     <ul class="booked-dates">
                         <li class="day-header">M</li>
                         <li class="day-header">T</li>
