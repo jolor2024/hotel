@@ -1,5 +1,6 @@
 <?php
 
+
 declare(strict_types=1);
 
 require '../vendor/autoload.php';
@@ -14,14 +15,6 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
-error_log($_ENV['API_KEY'], 4);
-
-
-/* Your hotel MUST give a response to every succesful booking. The response should be in json and MUST have the following properties*/
-/*Your hotel MUST check if a transferCode submitted by a tourist is valid (otherwise you won't get any money)*/
-//Your hotel MUST check availibilty of the requested room and dates before making the booking and sending the response package as json.
-
-
 if (isset(
     $_POST["start-date"],
     $_POST["end-date"],
@@ -30,35 +23,40 @@ if (isset(
 )) {
     $startDate = $_POST["start-date"];
     $endDate = $_POST["end-date"];
-    $room = $_POST["room"]; //Kolla om giltiga room namn?
+
+    $room = $_POST["room"];
+
+    if ($room != "Budget" && $room != "Standard" && $room != "Luxury") { //Checks if correct $room input
+        $room = "Budget"; //annars default Budget
+    }
+
+
     $transferCode = $_POST["transferCode"];
 
-    //Kolla om giltiga namn features?
     $features = [];
     if (isset($_POST["feature1"])) {
         $features[] = [
-            "name" => $_POST["feature1"],
-            "price" => "20"
+            "name" => "coffeemaker",
+            "cost" => 1
         ];
     }
     if (isset($_POST["feature2"])) {
         $features[] = [
-            "name" => $_POST["feature2"],
-            "price" => "10"
+            "name" => "tv",
+            "cost" => 2
         ];
     }
     if (isset($_POST["feature3"])) {
         $features[] = [
-            "name" => $_POST["feature3"],
-            "price" => "15"
+            "name" => "minibar",
+            "cost" => 3
         ];
     }
 
-    //error_log(implode(array_values($features)[0]), 4);
 
-    $stars = 4;
+    $stars = "4";
 
-    $roomCost = 0; //Calculating cost function? ist
+    $roomCost = 0;
     $totalCost = 0;
 
     if ($room == "Budget") {
@@ -74,27 +72,24 @@ if (isset(
 
 
     foreach ($features as $feature) {
-        $totalCost += $feature["price"];
+        $totalCost += $feature["cost"];
     }
 
     error_log("Total Cost: " . $totalCost, 4);
 
 
-    ////The hotel can give discounts, for example, how about 30% off for a visit longer than three days?
+    ////Discount 30% off for a visit longer than three days?
     if ((new DateTime($startDate))->diff(new DateTime($endDate))->days > 3) {
-        $totalCost = 0.7 * $totalCost;
-        error_log("More than 3 days, give discount", 4);
+        $totalCost = (int) (0.7 * $totalCost);
     }
 
 
-
+    header('Content-Type: application/json');
     if (checkTransfer($transferCode, $totalCost)) { //Valid transfer code
-        header('Content-Type: application/json');
         if (checkAvailable($startDate, $endDate, $room)) { //Check available dates.
             //Fixa här features.
             if (insertBooking($room, $roomCost, $startDate, $endDate, $transferCode, true, false, false, $totalCost)) {
-                error_log("Success Booking order created...", 4);
-                //Bokning ok! Deposit pengarna
+                error_log("Success.  Booking created.", 4);
                 if (deposit($transferCode)) {
                     error_log("Success deposit.", 4);
                     $response = [
@@ -106,8 +101,8 @@ if (isset(
                         "stars" => $stars,
                         "features" => $features,
                         "additional_info" => [
-                            "greeting" => "Thank you for choosing Centralhotellet",
-                            "imageUrl" => "https://upload.wikimedia.org/wikipedia/commons/e/e2/Hotel_Boscolo_Exedra_Nice.jpg"
+                            "greeting" => "Thank you for choosing Code Spa Hotel!",
+                            "imageUrl" => "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/LA2-vx06-teleborg3.jpg/800px-LA2-vx06-teleborg3.jpg"
                         ]
                     ];
                     echo json_encode($response);
@@ -115,20 +110,21 @@ if (isset(
                     error_log("Error deposit", 4);
                 }
             } else {
-                error_log("Error booking order...", 4);
+                error_log("Error inserting order...", 4);
             }
         } else {
-            error_log("Selected dates not available", 4);
+            error_log("Selected dates not available.", 4);
+            echo json_encode("Selected dates not available.");
         }
     } else {
-        echo json_encode("Not valid transfer code");
-        error_log("Not valid transfer code", 4);
+        error_log("Not valid transfer code.", 4);
+        echo json_encode("Not valid transfer code. ");
     }
 }
 
 
 /* Checks if transfer code is valid */
-function checkTransfer($transferCode, $totalCost)
+function checkTransfer(string $transferCode, float $totalCost): bool
 {
     error_log("Code: " . $transferCode, 4);
     $client = new Client(["base_uri" => "https://www.yrgopelago.se/centralbank/"]);
@@ -155,8 +151,8 @@ function checkTransfer($transferCode, $totalCost)
 }
 
 
-//Deposit transfercode $$$
-function deposit($transferCode)
+//Deposit transfercode
+function deposit(string $transferCode): bool
 {
     $username = "Jonatan";
 

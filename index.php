@@ -50,12 +50,13 @@ $dates_luxury = datesToArray($luxury_bookings);
         <div class="hero">
             <div class="inner-text">
                 <h2>Din plats för Coworking, Kod och SPA.</h2>
+                <h3>&starf;&starf;&starf;&starf;</h1>
             </div>
 
         </div>
     </header>
-    <main>
 
+    <main>
         <div class="form">
             <div class="booking-form">
                 <form action="app/booking.php" method="post">
@@ -175,8 +176,6 @@ $dates_luxury = datesToArray($luxury_bookings);
                 </div>
             </section>
         </section>
-
-
     </main>
     <footer>
         <span>CodeSpa Hotel</span>

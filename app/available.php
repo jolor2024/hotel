@@ -3,10 +3,8 @@
 declare(strict_types=1);
 require_once __DIR__ . "/dbfunctions.php";
 
-
-
 //Get the booked dates as an arrays
-function datesToArray($booked_dates)
+function datesToArray(array $booked_dates): array
 {
     $dates = [];
     foreach ($booked_dates as $bd) {
@@ -22,14 +20,14 @@ function datesToArray($booked_dates)
 }
 
 //Checks available dates
-function checkAvailable($start_date, $end_date, $roomType)
+function checkAvailable(string $start_date, string $end_date, string $roomType): bool
 {
     $start_date = new DateTime($start_date);
     $end_date = new DateTime($end_date);
 
     $overlaps = false;
 
-    //Här byt get bookings 
+
     $all_bookings = getBookings("../db/booking.db");
     foreach ($all_bookings as $bd) {
         if ($bd["room_type"] == $roomType) {
@@ -59,10 +57,10 @@ function checkAvailable($start_date, $end_date, $roomType)
     }
 
     if ($overlaps) {
-        error_log("Dates overlaps. Can not make booking", 4);
+        error_log("Dates overlaps. Can not make booking.", 4);
         return false;
     } else {
-        error_log("Available ok, create booking...", 4);
+        error_log("Available, making reservation...", 4);
         return true;
     }
 }

@@ -3,28 +3,28 @@
 declare(strict_types=1);
 
 //insertTestData();
-function insertTestData()
+function insertTestData(): void
 {
     /*
-    $roomId = insertRoom("Budget", 200);
-    insertBooking($roomId, "2025-01-16", "2025-01-19", "ab22c123", true, true, false, 500);
+    $roomId = insertRoom("Budget", 2);
+    insertBooking($roomId, "2025-01-16", "2025-01-19", "ab22c123", true, true, false, 5);
     
-    $roomId = insertRoom("Budget", 200);
-    insertBooking($roomId, "2025-01-01", "2025-01-05", "abc123", true, true, false, 500);
+    $roomId = insertRoom("Budget", 2);
+    insertBooking($roomId, "2025-01-01", "2025-01-05", "abc123", true, true, false, 5);
 
-    $roomId = insertRoom("Budget", 200);
-    insertBooking($roomId, "2025-01-06", "2025-01-10", "abcd1234", true, true, false, 500);
+    $roomId = insertRoom("Budget", 2);
+    insertBooking($roomId, "2025-01-06", "2025-01-10", "abcd1234", true, true, false, 5);
 
-    $roomId = insertRoom("Standard", 500);
-    insertBooking($roomId, "2025-01-06", "2025-01-12", "abc1234", true, true, true, 500);
+    $roomId = insertRoom("Standard", 5);
+    insertBooking($roomId, "2025-01-06", "2025-01-12", "abc1234", true, true, true, 5);
 
-    $roomId = insertRoom("Luxury", 1000);
-    insertBooking($roomId, "2025-01-15", "2025-01-17", "abcd", true, true, true, 1000);
+    $roomId = insertRoom("Luxury", 10);
+    insertBooking($roomId, "2025-01-15", "2025-01-17", "abcd", true, true, true, 10);
     */
 }
 
 
-function insertRoom($roomType, $price)
+function insertRoom(string $roomType, int $price): mixed
 {
     try {
         $db = new PDO("sqlite:../db/booking.db");
@@ -40,9 +40,17 @@ function insertRoom($roomType, $price)
 }
 
 
-//Ändra pathen här?
-function insertBooking($roomType, $roomPrice, $startDate, $endDate, $transferCode, $feature1, $feature2, $feature3, $totalPrice)
-{
+function insertBooking(
+    string $roomType,
+    int $roomPrice,
+    string $startDate,
+    string $endDate,
+    string $transferCode,
+    bool $feature1,
+    bool $feature2,
+    bool $feature3,
+    int $totalPrice
+): bool {
     $roomId = insertRoom($roomType, $roomPrice); //Först insert room för få room id
     try {
         $db = new PDO("sqlite:../db/booking.db");
@@ -65,14 +73,12 @@ function insertBooking($roomType, $roomPrice, $startDate, $endDate, $transferCod
 
 
 
-function getBookings($path)
+function getBookings(string $path): array
 {
-    error_log("path: " . $path, 4);
     try {
-        $db = new PDO("sqlite:" . $path); //Path endast för index?
+        $db = new PDO("sqlite:" . $path);
         $statement = $db->query("SELECT bookings.*, rooms.room_type FROM bookings JOIN rooms on bookings.room_id = rooms.id"); //right now only rooms
         $rooms = $statement->fetchAll(PDO::FETCH_ASSOC);
-
         return $rooms;
     } catch (PDOException $e) {
         echo "Error connection: " . $e->getMessage();

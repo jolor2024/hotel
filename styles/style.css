@@ -95,11 +95,12 @@ nav h1 {
     grid-template-columns: repeat(7, 1fr); 
     padding: 0;
     width: 450px;
+    border: 1px solid rgb(237, 237, 237);
 }
 
 .booked-dates li {
-    background-color: #f1f1f1;
-    color: rgb(62, 62, 62);
+    background-color: #fdfdfd;
+    color: rgb(99, 99, 99);
     padding: 0; 
     font-size: 14px;
     font-weight: bold;
@@ -120,10 +121,11 @@ nav h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #969683;
+    color: #f95f5f;
 }
 
 .booked-dates .booked {
+    color: #fff;
     background-color: #f95f5f;
 }
 
@@ -145,6 +147,8 @@ main {
 
 .infoContent h1 {
     text-align: center;
+    font-size: 24px;
+    font-weight: 500;
 }
 
 .room {
