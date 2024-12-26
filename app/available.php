@@ -3,18 +3,6 @@
 declare(strict_types=1);
 require_once __DIR__ . "/dbfunctions.php";
 
-//För test
-function getBookedDates()
-{
-    //For testing dates.
-    $booked_dates = [
-        ["start_date" => "2025-01-03", "end_date" => "2025-01-05"],
-        ["start_date" => "2025-01-10", "end_date" => "2025-01-15"],
-        ["start_date" => "2025-01-17", "end_date" => "2025-01-20"]
-    ];
-
-    return $booked_dates;
-}
 
 
 //Get the booked dates as an arrays
@@ -43,7 +31,6 @@ function checkAvailable($start_date, $end_date, $roomType)
 
     //Här byt get bookings 
     $all_bookings = getBookings("../db/booking.db");
-    print_r($all_bookings);
     foreach ($all_bookings as $bd) {
         if ($bd["room_type"] == $roomType) {
             $start_bd = new DateTime($bd["start_date"]);

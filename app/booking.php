@@ -91,25 +91,26 @@ if (isset(
     if (checkTransfer($transferCode, $totalCost)) { //Valid transfer code
         header('Content-Type: application/json');
         if (checkAvailable($startDate, $endDate, $room)) { //Check available dates.
-            $response = [
-                "island" => "Insula Bolmia",
-                "hotel" => "Code Spa Hotel",
-                "arrival_date" => $startDate,
-                "departure_date" => $endDate,
-                "total_cost" => $totalCost,
-                "stars" => $stars,
-                "features" => $features,
-                "additional_info" => [
-                    "greeting" => "Thank you for choosing Centralhotellet",
-                    "imageUrl" => "https://upload.wikimedia.org/wikipedia/commons/e/e2/Hotel_Boscolo_Exedra_Nice.jpg"
-                ]
-            ];
             //Fixa här features.
             if (insertBooking($room, $roomCost, $startDate, $endDate, $transferCode, true, false, false, $totalCost)) {
                 error_log("Success Booking order created...", 4);
                 //Bokning ok! Deposit pengarna
                 if (deposit($transferCode)) {
                     error_log("Success deposit.", 4);
+                    $response = [
+                        "island" => "Insula Bolmia",
+                        "hotel" => "Code Spa Hotel",
+                        "arrival_date" => $startDate,
+                        "departure_date" => $endDate,
+                        "total_cost" => $totalCost,
+                        "stars" => $stars,
+                        "features" => $features,
+                        "additional_info" => [
+                            "greeting" => "Thank you for choosing Centralhotellet",
+                            "imageUrl" => "https://upload.wikimedia.org/wikipedia/commons/e/e2/Hotel_Boscolo_Exedra_Nice.jpg"
+                        ]
+                    ];
+                    echo json_encode($response);
                 } else {
                     error_log("Error deposit", 4);
                 }

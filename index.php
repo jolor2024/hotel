@@ -75,9 +75,9 @@ $dates_luxury = datesToArray($luxury_bookings);
                             <div class="section-form">
                                 <label for="standard">Rum:</label>
                                 <select name="room" id="standard">
-                                    <option value="Budget">Code & Chill (Budget)</option>
-                                    <option value="Standard">Debug & Reboot (Standard)</option>
-                                    <option value="Luxury">Dev & Detox (Luxury)</option>
+                                    <option value="Budget">Debug & Reboot (Budget)</option>
+                                    <option value="Standard">Dev & Detox (Standard)</option>
+                                    <option value="Luxury">SPA & SPA (Luxury)</option>
                                 </select>
                             </div>
                             <div class="section-form">
