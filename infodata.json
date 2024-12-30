@@ -1,7 +1,7 @@
 {
     "starRating": "5",
-    "discount": "30",
-    "budgetPrice": "2",
+    "discount": "0",
+    "budgetPrice": "3",
     "standardPrice": "5",
     "luxuryPrice": "10",
     "coffeemakerPrice": "1",
