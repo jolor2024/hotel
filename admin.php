@@ -66,9 +66,10 @@ if ($authenticated) {
 </head>
 
 <body>
-    <a href="/app/logout.php">Logga out</a>
+
     <!-- - where different data can be altered, such as room prices, the star rating, discount levels  --->
     <?php if ($authenticated) : ?>
+        <a href="app/logout.php">Logga out</a>
         <form id="update_form" action="" method="post">
             <label for="star_rating">Star rating</label>
             <select name="star_rating" id="star_rating">
@@ -107,7 +108,7 @@ if ($authenticated) {
 
         </form>
     <?php else : ?>
-        <form action="/app/login.php" method="post">
+        <form action="app/login.php" method="post">
             <label for="apikey">API key: </label>
             <input type="text" name="apikey" id="apikey" placeholder="123...">
             <button type="submit">Logga in</button>
