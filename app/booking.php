@@ -31,42 +31,46 @@ if (isset(
     }
 
 
+    //Läser in priser om rummen osv.
+    $bookingData = json_decode(file_get_contents('../infodata.json'), true);
+
     $transferCode = $_POST["transferCode"];
 
     $features = [];
     if (isset($_POST["feature1"])) {
         $features[] = [
             "name" => "coffeemaker",
-            "cost" => 1
+            "cost" => $bookingData["coffeemakerPrice"]
         ];
     }
     if (isset($_POST["feature2"])) {
         $features[] = [
             "name" => "tv",
-            "cost" => 2
+            "cost" => $bookingData["tvPrice"]
         ];
     }
     if (isset($_POST["feature3"])) {
         $features[] = [
             "name" => "minibar",
-            "cost" => 3
+            "cost" => $bookingData["minibarPrice"]
         ];
     }
 
 
-    $stars = "4";
 
+    //Hämta priser här + features
+    $stars = $bookingData["starRating"];
     $roomCost = 0;
     $totalCost = 0;
 
     if ($room == "Budget") {
-        $roomCost += 2;
+        $roomCost += $bookingData["budgetPrice"];
         $totalCost += $roomCost;
     } else if ($room == "Standard") {
-        $roomCost += 5;
+        $roomCost += $bookingData["standardPrice"];
         $totalCost += $roomCost;
     } else if ($room == "Luxury") {
-        $roomCost += 10;
+        $roomCost += $bookingData["luxuryPrice"];
         $totalCost += $roomCost;
     }
 
@@ -78,9 +82,10 @@ if (isset(
     error_log("Total Cost: " . $totalCost, 4);
 
 
-    ////Discount 30% off for a visit longer than three days?
+
     if ((new DateTime($startDate))->diff(new DateTime($endDate))->days > 3) {
-        $totalCost = (int) (0.7 * $totalCost);
+        $discountAmount = ($bookingData["discount"] / 100) * $totalCost;
+        $totalCost = $totalCost - $discountAmount;
     }
 
 
@@ -102,7 +107,7 @@ if (isset(
                         "features" => $features,
                         "additional_info" => [
                             "greeting" => "Thank you for choosing Code Spa Hotel!",
-                            "imageUrl" => "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/LA2-vx06-teleborg3.jpg/800px-LA2-vx06-teleborg3.jpg"
+                            "imageUrl" => "https://upload.wikimedia.org/wikipedia/commons/3/3e/Bolms%C3%B6_-_KMB_-_16000700009625.jpg"
                         ]
                     ];
                     echo json_encode($response);
