@@ -50,7 +50,7 @@ $dates_luxury = datesToArray($luxury_bookings);
         <div class="hero">
             <div class="inner-text">
                 <h2>Din plats för Coworking, Kod och SPA.</h2>
-                <h3>&starf;&starf;&starf;&starf;&starf;</h1>
+                <h3>&#10022; &#10022; &#10022; &#10022; &#10022;</h1>
             </div>
 
         </div>
@@ -78,7 +78,7 @@ $dates_luxury = datesToArray($luxury_bookings);
                                 <select name="room" id="standard">
                                     <option value="Budget">Debug & Reboot (Budget)</option>
                                     <option value="Standard">Dev & Detox (Standard)</option>
-                                    <option value="Luxury">SPA & SPA (Luxury)</option>
+                                    <option value="Luxury">Full Stack Relaxation (Luxury)</option>
                                 </select>
                             </div>
                             <div class="section-form">
@@ -158,8 +158,8 @@ $dates_luxury = datesToArray($luxury_bookings);
             <section class="room" id="luxury">
                 <div class="roomImg luxuryImg"></div>
                 <div class="roomInfo">
-                    <h2>SPA & SPA (Luxury)</h2>
-                    <p>Få tillgång till Spa medan du kodar ditt SPA.</p>
+                    <h2>Full Stack Relaxation (Luxury)</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                     <p>Bokade tider</p>
                     <ul class="booked-dates">
                         <li class="day-header">M</li>
